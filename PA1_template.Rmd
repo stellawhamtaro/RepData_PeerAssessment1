@@ -2,7 +2,9 @@
 title: "PA1_template"
 author: "Stella"
 date: "10/18/2022"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 
@@ -25,44 +27,45 @@ hist(stepsPerDay$steps)
 png("plot 1.png")
 ```
 # part 2 report mean
-```{{r, echo = TRUE}}
+```{r, echo = TRUE}
 meanStepsPerDay <- mean(stepsPerDay$steps)
 meanStepsPerDay
 ```
 #part 2 report median
-```{{r, echo = TRUE}}
+```{r, echo = TRUE}
 medianStepsPerDay <- median(stepsPerDay$steps)
 medianStepsPerDay
 ```
 #part 3 average daily activity pattern
-```{{r, echo = TRUE}}
+```{r, echo = TRUE}
 stepsPerInterval<-aggregate(steps~interval, data=activityData, mean, na.rm=TRUE)
 plot(steps~interval, data=stepsPerInterval, type="l")
 png("plot 2.png")
 ```
 #part 3 max steps
-```{{r, echo = TRUE}}
+```{r, echo = TRUE}
 intervalWithMaxSteps <- stepsPerInterval[which.max(stepsPerInterval$steps),]$interval
 intervalWithMaxSteps
 ```
 #part 4 inputting missing values
-```{{r, echo = TRUE}}
+```{r, echo = TRUE}
 totalValuesMissings <- sum(is.na(activityData$steps))
 totalValuesMissings
 ```
 #part 4 filling in missing values using mean
-```{{r, echo = TRUE}}
+```{r, echo = TRUE}
 getMeanStepsPerInterval<-function(interval){
   stepsPerInterval[stepsPerInterval$interval==interval,]$steps
 }
 ```
 #part 4 new data set with filled in data
-```{{r, echo = TRUE}}
+```{r, echo = TRUE}
 activityDataNoNA<-activityData
 for(i in 1:nrow(activityDataNoNA)){
   if(is.na(activityDataNoNA[i,]$steps)){
     activityDataNoNA[i,]$steps <- getMeanStepsPerInterval(activityDataNoNA[i,]$interval)
   }
+}
 ```
 #part 4 histogram
 ```{r, echo = TRUE}
